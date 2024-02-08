@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.scss"],
   modules: [
     '@element-plus/nuxt',
+    '@sidebase/nuxt-session',
     [
       '@pinia/nuxt',
       {
@@ -18,39 +19,48 @@ export default defineNuxtConfig({
         ],
       },
     ],
-    // '@sidebase/nuxt-auth'
+    '@sidebase/nuxt-auth'
   ],
-  elementPlus: { /** Options */ },
+  build: {
+    transpile: ['jsonwebtoken']
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
-  // auth: {
-  //   globalAppMiddleware: true,
-  //   baseURL: process.env.NUXT_PUBLIC_API_URL,
-  //   provider: {
-  //       type: 'local',
-  //       endpoints: {
-  //           signIn: { path: '/login', method: 'post' },
-  //           // signOut: { path: '/identity/accounts/logout', method: 'get' },
-  //           // signUp: { path: '/identity/accounts/register', method: 'post' },
-  //           getSession: { path: '/users/1', method: 'get' }
-  //       },
-  //       pages: {
-  //           login: '/auth/login',
-  //       },
-  //       token: {
-  //           signInResponseTokenPointer: '/token'
-  //       },
-  //       sessionDataType: {}
-  //   },
-  //   enableSessionRefreshPeriodically: 5000,
-  //   enableSessionRefreshOnWindowFocus: true,
-  //   globalMiddlewareOptions: {
-  //       allow404WithoutAuth: false, // Defines if the 404 page will be accessible while unauthenticated
-  //       addDefaultCallbackUrl: '/', // Where authenticated user will be redirected to by default
-  //   }
-  // }
+  elementPlus: {
+    icon: 'ElIcon',
+    importStyle: 'scss',
+  },
+  auth: {
+    provider: {
+      type: 'local',
+      endpoints: {
+        getSession: { path: '/user' }
+      },
+      pages: {
+        login: '/auth/login'
+      },
+      token: {
+        signInResponseTokenPointer: '/token/accessToken'
+      },
+      sessionDataType: { id: 'string', email: 'string', name: 'string', role: 'admin | guest | account', subscriptions: "{ id: number, status: 'ACTIVE' | 'INACTIVE' }[]" }
+    },
+    session: {
+      // Whether to refresh the session every time the browser window is refocused.
+      enableRefreshOnWindowFocus: false,
+
+      // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
+      // enableRefreshPeriodically: 5000
+    },
+    globalAppMiddleware: {
+      isEnabled: true
+    },
+    globalMiddlewareOptions: {
+      allow404WithoutAuth: true, // Defines if the 404 page will be accessible while unauthenticated
+      addDefaultCallbackUrl: '/' // Where authenticated user will be redirected to by default
+    }
+  }
 })

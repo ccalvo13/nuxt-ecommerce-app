@@ -14,6 +14,8 @@
     "@element-plus/nuxt": "^1.0.7",
     "@pinia/nuxt": "^0.5.1",
     "@sidebase/nuxt-auth": "^0.6.7",
+    "@sidebase/nuxt-session": "^0.2.8",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/node": "^20.11.10",
     "autoprefixer": "^10.4.17",
     "element-plus": "^2.5.3",
@@ -25,6 +27,9 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "sass": "^1.70.0"
+    "@types/jsonwebtoken": "^9.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "sass": "^1.70.0",
+    "zod": "^3.22.4"
   }
 }

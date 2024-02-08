@@ -17,15 +17,16 @@
             <el-alert v-if="loginError" title="Invalid login" type="error"
                 description="Please check your credentials and try again." />
             <div class="text-center my-10 text-gray-500">
-                <el-button type="info" link><nuxt-link to="/auth/signup">Don't have an account yet? Sign up</nuxt-link></el-button>
+                <el-button type="info" link @click.prevent="signup">Don't have an account yet? Sign up</el-button>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
-import { useAuthStore } from '~/stores/auth'; // import the auth store we just created
 import { Message, Hide } from '@element-plus/icons-vue'
+const { signIn } = useAuth()
+
+let loading = ref(false);
 
 definePageMeta({
   title: 'Login',
@@ -33,14 +34,10 @@ definePageMeta({
   public: true,
 })
 
-const { authenticateUser } = useAuthStore(); // use authenticateUser action from  auth store
-const router = useRouter();
-
-const { authenticated, loading } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
-
 const user = ref({
     username: 'mor_2314', 
-    password: '83r5^_',
+    // password: '83r5^_',
+    password: 'hunter2',
 });
 
 const loginForm = ref<FormInstance>()
@@ -52,16 +49,28 @@ const loginRules = {
 
 const loginError = ref(false);
 
-const login = async () => {
+const login = async (e) => {
+    loading = true;
     loginError.value = false;
     (loginForm.value as any).validate(async (valid: boolean) => {
-        await authenticateUser(user.value); // call authenticateUser and pass the user object
-        if (valid && authenticated) {
-            // redirect to homepage if user is authenticated
-            router.push('/home');
+        e.preventDefault()
+        if (valid) {
+            let res = await signIn(
+                { ...user.value },
+                { callbackUrl: '/' }
+            )
+
+            loading = false;
+
+            console.log("res", res);
         } else {
             loginError.value = true;
         }
     });
 };
+
+const signup = async () => {
+  await navigateTo({ path: '/auth/signup' })
+};
+
 </script>

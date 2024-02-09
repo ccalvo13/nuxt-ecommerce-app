@@ -1,19 +1,19 @@
 <template>
   <!-- <div class="container mx-auto max-w-90 px-4 py-16 sm:px-6 sm:py-24 sm:w-98 lg:max-w-4/6 lg:px-8"> -->
-  <div class="container mx-auto max-w-90 mt-10">
+  <div class="container mx-auto max-w-90 mt-10" v-loading="productList.loading">
     <div class="heading-title flex justify-center mb-10">
       <h1 class="text-3xl font-bold">Products</h1>
     </div>
     <div class="product-filters flex space-between">
       <div class="flex gap-2">
-        <el-checkbox-group v-model="categoryGroup" size="large">
-          <el-checkbox-button label="All products">
+        <el-radio-group v-model="categoryGroup" @change="getProducts" size="large">
+          <el-radio-button label="All products">
             All products
-          </el-checkbox-button>
-          <el-checkbox-button v-for="(category, index) in categoriesList" :key="category" :label="category">
+          </el-radio-button>
+          <el-radio-button v-for="(category, index) in categoriesList" :key="category" :label="category">
             {{ category }}
-          </el-checkbox-button>
-        </el-checkbox-group>
+          </el-radio-button>
+        </el-radio-group>
       </div>
       <div class="flex-grow" />
       <div class="flex gap-2">
@@ -37,7 +37,7 @@
     <div class="product-list">
       <el-row class="flex items-stretch mx-4 justify-center">
         <el-col
-          v-for="(product, index) in products"
+          v-for="(product, index) in productList.data"
           :key="index"
           class="p-4"
           :xs="20" :sm="12" :md="8" :lg="6" :xl="6"
@@ -77,25 +77,31 @@ definePageMeta({
   public: true,
 })
 
-const categoryGroup = ref(['All products'])
+const categoryGroup = ref('All products');
+const sortBy = ref('asc');
 
-// const { data, pending }: any = await useFetch('https://fakestoreapi.com/products', {
-//   method: 'get',
-//   headers: { 'Content-Type': 'application/json' }
-// });
+let loading = ref(false);
+let productList = reactive({ data: [], loading: false });
 
-const { data, fetchProducts } = useProducts();
-console.log('products', fetchProducts);
+const { data: categoriesList } = await useProductCategories();
 
-const { data: categories }: any = await useFetch('https://fakestoreapi.com/products/categories', {
-  method: 'get',
-  headers: { 'Content-Type': 'application/json' }
-});
+const { data } = await useProducts(sortBy);
+productList.data = data.value;
 
-console.log('categories', categories);
+const getProducts = async () => {
+  productList.loading = true;
+  if (categoryGroup.value === 'All products') {
+    const { data: products } = await useProducts(sortBy);
 
-const products = data;
-const categoriesList = categories.value;
+    productList.data = products;
+    productList.loading = false;
+  } else {
+    const { data: products } = await useFilterByCategory(categoryGroup.value);
+
+    productList.data = products;
+    productList.loading = false;
+  }
+}
 </script>
 
 <style>

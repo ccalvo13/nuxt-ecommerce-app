@@ -1,1 +1,3 @@
-export * from './useProducts/index.ts'
+export * from './useProducts'
+export * from './useProductCategories'
+export * from './useFilterByCategory'

@@ -7,9 +7,9 @@ const interface IProductsModel {
   image: string;
 }
 
-export interface UseProducts {
+export interface useFilterByCategory {
   data: Readonly<Ref<IProductsModel>>;
   pending: boolean;
 }
 
-export type UseProductsReturn = () => useProducts;
+export type useFilterByCategoryReturn = () => useFilterByCategory;

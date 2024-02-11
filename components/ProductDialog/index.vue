@@ -20,7 +20,7 @@
             </a>
           </h4>
           <div class="bottom">
-            <span class="font-semibold">$ {{ product.price }}</span>
+            <span class="font-semibold">${{ product.price }}</span>
           </div>
         </div>
         <div class="flex my-4">
@@ -37,13 +37,23 @@
           <span>{{ product.description }}</span>
         </div>
       </div>
+      <el-divider />
+      <div class="flex justify-between subtotal">
+        <div>
+          <span class="font-semibold">Order Subtotal</span>
+        </div>
+        <div>
+          <span class="font-semibold">${{ Number(product.price * quantity).toFixed(2) }}</span>
+        </div>
+      </div>
     </div>
+
     <template #footer>
-      <div class="flex my-4">
+      <div class="flex my-4 justify-between">
         <div class="quantity">
           <el-input-number v-model="quantity" :min="1" :max="10" />
         </div>
-        <el-button type="primary" @click="addToCart(product)">
+        <el-button type="primary" color="#9a584d" @click="addToCart(product)">
           Add to cart
         </el-button>
       </div>
@@ -57,11 +67,24 @@ import type { ProductDialogProps } from '~/components/ProductDialog/types';
 defineProps<ProductDialogProps>();
 const quantity = ref(1);
 
-const addToCart = (product) => {
-  console.log('quantity: ' + quantity.value);
-  console.log('product:'+ JSON.stringify(product));
+const addToCart = async (product) => {
+  const today = new Date();
+  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  const { data: cart }: any = await useFetch(`https://fakestoreapi.com/carts/2`, {
+    method: 'put',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userId: 2,
+      date: date,
+      products: [
+        { 
+          productId: product.id,
+          quantity: quantity.value,
+        }
+      ]
+    }),
+  });
 }
-// defineEmits(['closeDialog'])
 </script>
 
 <style>

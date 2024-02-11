@@ -16,7 +16,7 @@ export default eventHandler(async (event) => {
   const user = {
     username,
     picture: 'https://github.com/nuxt.png',
-    name: 'User ' + username
+    name: username
   }
 
   const accessToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, { expiresIn })

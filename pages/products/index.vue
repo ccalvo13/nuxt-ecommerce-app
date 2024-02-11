@@ -10,7 +10,7 @@
           <el-radio-button label="All products">
             All products
           </el-radio-button>
-          <el-radio-button v-for="(category, index) in categoriesList" :key="category" :label="category">
+          <el-radio-button v-for="(category, index) in categoriesList.data" :key="category" :label="category">
             {{ category }}
           </el-radio-button>
         </el-radio-group>
@@ -22,6 +22,7 @@
           class="m-2"
           placeholder="Sort by"
           style="width: 240px"
+          @change="getSortBy"
         >
           <el-option
             label="Ascending Order"
@@ -42,7 +43,12 @@
           class="p-4"
           :xs="20" :sm="12" :md="8" :lg="6" :xl="6"
         >
-          <el-card class="block bg-gray-100 overflow-hidden border-2 h-full" :body-style="{ padding: '0px' }">
+          <ProductDialog v-model="isOpen" :product="selectedProduct.data" @close-dialog="closeDialog" />
+          <el-card
+            class="block bg-gray-100 overflow-hidden border-2 h-full"
+            :body-style="{ padding: '0px' }"
+            @click="openDialog(product)"
+          >
             <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
               <img
                 :src="product.image"
@@ -79,17 +85,27 @@ definePageMeta({
 
 const categoryGroup = ref('All products');
 const sortBy = ref('asc');
+const isOpen = ref(false);
 
 let loading = ref(false);
 let productList = reactive({ data: [], loading: false });
+let categoriesList = reactive({ data: [] });
+let selectedProduct = reactive({ data: {} })
 
-const { data: categoriesList } = await useProductCategories();
+onMounted(async () => {
+  productList.loading = true;
+  const { data: categories } = await useProductCategories();
+  categoriesList.data = categories;
 
-const { data } = await useProducts(sortBy);
-productList.data = data.value;
+  const { data: products } = await useProducts(sortBy);
+
+  getSorted(products.value)
+  productList.loading = false;
+});
 
 const getProducts = async () => {
   productList.loading = true;
+  sortBy.value = 'asc';
   if (categoryGroup.value === 'All products') {
     const { data: products } = await useProducts(sortBy);
 
@@ -101,6 +117,36 @@ const getProducts = async () => {
     productList.data = products;
     productList.loading = false;
   }
+
+  getSorted(productList.data)
+}
+
+const getSorted = async (products) => {
+  productList.data = await products.sort((a, b) => a.price - b.price);
+}
+
+const getSortBy = async () => {
+  productList.loading = true;
+
+  productList.data = productList.data.sort((a,b) => {
+    if (sortBy.value === 'asc') {
+      return a.price - b.price;
+    } else if (sortBy.value === 'desc') {
+      return b.price - a.price
+    }
+  })
+  
+  productList.loading = false;
+}
+
+const openDialog = (product) => {
+  selectedProduct.data = product;
+  isOpen.value = true;
+}
+
+const closeDialog = () => {
+  isOpen.value = !isOpen.value;
+  console.log('isOpen', isOpen.value);
 }
 </script>
 

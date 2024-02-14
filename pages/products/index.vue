@@ -45,7 +45,7 @@
         >
           <ProductDialog v-model="isOpen" :product="selectedProduct.data" @close-dialog="closeDialog" />
           <el-card
-            class="block bg-gray-100 overflow-hidden border-2 h-full"
+            class="block bg-gray-100 overflow-hidden border-2 h-full cursor-pointer"
             :body-style="{ padding: '0px' }"
             @click="openDialog(product)"
           >
@@ -146,7 +146,6 @@ const openDialog = (product) => {
 
 const closeDialog = () => {
   isOpen.value = !isOpen.value;
-  console.log('isOpen', isOpen.value);
 }
 </script>
 

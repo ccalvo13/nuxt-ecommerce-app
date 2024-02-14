@@ -4,8 +4,6 @@ export const useFilterByCategory: useFilterByCategoryReturn = async (query) => {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  console.log('data', data)
-
   return {
     data,
   };

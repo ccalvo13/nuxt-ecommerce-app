@@ -23,7 +23,7 @@
         <el-menu-item index="#">
           <el-button text :icon="Search" />
         </el-menu-item>
-        <el-menu-item index="#">
+        <el-menu-item index="/cart">
           <el-button text :icon="ShoppingCart" />
         </el-menu-item>
         <el-menu-item index="#">
@@ -82,7 +82,7 @@
           <el-menu-item index="#">Blog</el-menu-item>
           <el-menu-item index="#">Contact</el-menu-item>
           <el-menu-item index="#">Search</el-menu-item>
-          <el-menu-item index="#">Cart</el-menu-item>
+          <el-menu-item index="/cart">Cart</el-menu-item>
           <el-menu-item index="#">Account</el-menu-item>
           <el-menu-item @click="logout">Logout</el-menu-item>
         </el-menu>

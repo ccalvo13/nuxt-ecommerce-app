@@ -1,15 +1,11 @@
-const interface IProductsModel {
+export type Products = {
   id: number;
   title: string;
   price: number;
   category: string;
   description: string;
   image: string;
+  rating?: {
+    rate?: number;
+  }
 }
-
-export interface UseProducts {
-  data: Readonly<Ref<IProductsModel>>;
-  pending: boolean;
-}
-
-export type UseProductsReturn = () => useProducts;

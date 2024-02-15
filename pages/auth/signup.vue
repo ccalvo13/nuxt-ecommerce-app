@@ -20,7 +20,7 @@
                   <el-input size="large" v-model="user.name.lastname" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
-                  <el-button color="#9a584d" size="large" class="w-full" type="primary" :loading="loading" @click.prevent="signup">Sign Up</el-button>
+                  <el-button color="#9a584d" size="large" class="w-full" type="primary" :loading="loading" @click="signup(signupForm)">Sign Up</el-button>
               </el-form-item>
           </el-form>
           <el-alert v-if="signupError" title="Invalid signup" type="error"
@@ -33,8 +33,11 @@
 </template>
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
-import { useAuthStore } from '~/stores/auth'; // import the auth store we just created
+// import { useAuthStore } from '~/stores/auth'; // import the auth store we just created
 import { Message, Hide } from '@element-plus/icons-vue'
+import type { FormInstance } from 'element-plus';
+const { signUp } = useAuth()
+let loading = ref(false);
 
 definePageMeta({
 title: 'Signup',
@@ -42,10 +45,10 @@ layout: 'auth',
 public: true,
 })
 
-const { registerUser } = useAuthStore(); // use authenticateUser action from  auth store
+// const { registerUser } = useAuthStore(); // use authenticateUser action from  auth store
 const router = useRouter();
 
-const { userCreated, loading } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+// const { userCreated, loading } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 
 const user = ref({
   email: 'John@gmail.com',
@@ -80,16 +83,20 @@ const signupRules = {
 
 const signupError = ref(false);
 
-const signup = async () => {
-  signupError.value = false;
-  (signupForm.value as any).validate(async (valid: boolean) => {
-      await registerUser(user.value); // call authenticateUser and pass the user object
-      if (valid && userCreated) {
-          // redirect to homepage if user is authenticated
-          router.push('/auth/login');
-      } else {
-          signupError.value = true;
-      }
-  });
+const signup = async (formInstance: FormInstance | undefined) => {
+    if (!formInstance) return;
+    loading.value = true;
+    signupError.value = false;
+    formInstance.validate(async (valid: boolean) => {
+        if (valid) {
+            await signUp(
+                { ...user.value },
+                { callbackUrl: '/auth/login'}
+            )
+            loading.value = false;
+        } else {
+            signupError.value = true;
+        }
+    });
 };
 </script>

@@ -1,3 +1,3 @@
 export type ProductDialogProps = {
-  product: IProductsModel;
+  product: Products;
 };

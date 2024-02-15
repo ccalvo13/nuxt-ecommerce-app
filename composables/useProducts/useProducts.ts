@@ -1,20 +1,10 @@
-/**
- * @description Composable for managing products.
- * @returns {@link UseProducts}
- * @example
- * const { data, loading, fetchProducts } = useProducts();
- */
-export const useProducts: UseProductsReturn = async (query) => {
-  const { data, pending }: any = await useFetch('https://fakestoreapi.com/products', {
-    method: 'get',
-    headers: { 'Content-Type': 'application/json' },
+export const useProducts = async (query: string): Promise<Products[]> => {
+  return await useFetch("https://fakestoreapi.com/products", {
+    method: "get",
+    headers: { "Content-Type": "application/json" },
     query: { sort: query },
+  }).then((response) => {
+    console.log('response', response.data.value)
+    return response.data.value as Products[]
   });
-
-  console.log('data', data)
-
-  return {
-    data,
-    pending
-  };
 };

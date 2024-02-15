@@ -1,10 +1,9 @@
-export const useCartList: useCartReturn = async (query) => {
-  const { data }: any = await useFetch(`https://fakestoreapi.com/carts/user/${query}`, {
-    method: 'get',
-    headers: { 'Content-Type': 'application/json' },
+export const useCartList = async (query: Number): Promise<Cart[]> => {
+  return useFetch(`https://fakestoreapi.com/carts/user/${query}`, {
+    method: "get",
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    console.log('carts', response.data.value)
+    return response.data.value as Cart[];
   });
-
-  return {
-    data,
-  };
 };

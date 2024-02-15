@@ -26,7 +26,7 @@
         </div>
         <div class="flex my-4">
           <span class="text-sm text-gray-700">
-            {{ product.rating.rate }}
+            {{ product?.rating?.rate }}
           </span>
           <el-icon class="el-icon--right mt-[1.4px]" :size="16" color="text-gray-700">
             <el-icon-star-filled />
@@ -68,7 +68,7 @@ import type { ProductDialogProps } from '~/components/ProductDialog/types';
 defineProps<ProductDialogProps>();
 const quantity = ref(1);
 
-const addToCart = async (product) => {
+const addToCart = async (product: Products) => {
   const today = new Date();
   const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
   const { data: cart }: any = await useFetch(`https://fakestoreapi.com/carts/2`, {

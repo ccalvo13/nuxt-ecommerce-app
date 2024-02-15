@@ -6,7 +6,7 @@
         class="el-menu-demo"
         mode="horizontal"
         :ellipsis="false"
-        router=true
+        :router=true
       >
         <el-menu-item>
           <img
@@ -17,8 +17,6 @@
         </el-menu-item>
         <el-menu-item index="/">Home</el-menu-item>
         <el-menu-item index="/products">Products</el-menu-item>
-        <el-menu-item index="#">Blog</el-menu-item>
-        <el-menu-item index="#">Contact</el-menu-item>
         <div class="flex-grow" />
         <el-menu-item index="#">
           <el-button text :icon="Search" />
@@ -39,7 +37,7 @@
         class="el-menu-demo"
         mode="horizontal"
         :ellipsis="false"
-        router=true
+        :router=true
       >
         <el-menu-item>
           <img
@@ -62,7 +60,7 @@
         </el-menu-item>
       </el-menu>
       <el-drawer v-model="visible" :show-close="false" size="50%">
-        <template #header="{ titleId, titleClass }">
+        <template #header="{ titleId }">
           <div :id="titleId" class="mx-4">
             <img
               class="w-[40px]"
@@ -75,12 +73,10 @@
           class="el-menu-demo"
           mode="vertical"
           :ellipsis="false"
-          router=true
+          :router=true
         >
           <el-menu-item index="/">Home</el-menu-item>
           <el-menu-item index="/products">Products</el-menu-item>
-          <el-menu-item index="#">Blog</el-menu-item>
-          <el-menu-item index="#">Contact</el-menu-item>
           <el-menu-item index="#">Search</el-menu-item>
           <el-menu-item index="/cart">Cart</el-menu-item>
           <el-menu-item index="#">Account</el-menu-item>

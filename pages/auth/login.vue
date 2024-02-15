@@ -11,7 +11,7 @@
                     <el-input size="large" v-model="user.password" type="password" autocomplete="off" :suffix-icon="Hide"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button color="#9a584d" size="large" class="w-full" type="primary" :loading="loading" @click.prevent="login">Sign In</el-button>
+                    <el-button color="#9a584d" size="large" class="w-full" type="primary" :loading="loading" @click="login(loginForm)">Sign In</el-button>
                 </el-form-item>
             </el-form>
             <el-alert v-if="loginError" title="Invalid login" type="error"
@@ -24,6 +24,7 @@
 </template>
 <script lang="ts" setup>
 import { Message, Hide } from '@element-plus/icons-vue'
+import type { FormInstance } from 'element-plus';
 const { signIn } = useAuth()
 
 let loading = ref(false);
@@ -49,20 +50,19 @@ const loginRules = {
 
 const loginError = ref(false);
 
-const login = async (e) => {
-    loading = true;
+const login = async (formInstance: FormInstance | undefined) => {
+    if (!formInstance) return;
+
+    loading.value = true;
     loginError.value = false;
-    (loginForm.value as any).validate(async (valid: boolean) => {
-        e.preventDefault()
+    formInstance.validate(async (valid: boolean) => {
         if (valid) {
-            let res = await signIn(
+            await signIn(
                 { ...user.value },
                 { callbackUrl: '/' }
             )
 
-            loading = false;
-
-            console.log("res", res);
+            loading.value = false;
         } else {
             loginError.value = true;
         }

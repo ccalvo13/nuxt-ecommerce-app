@@ -1,15 +1,17 @@
-const interface ICartModel {
+export type Product = {
+  productId: number;
+  quantity: number;
+}
+
+export type Cart = {
   id: number;
   date: string;
-  products: Array<{
-    productsId: number;
-    quantity: number;
-  }>;
+  products: FilteredCart[];
   userId: number;
 }
 
-export interface UseCartList {
-  data: Readonly<Ref<ICartModel>>;
+export type FilteredCart = {
+  productId: number;
+  quantity: number;
+  product?: Products;
 }
-
-export type UseCartReturn = () => useCart;

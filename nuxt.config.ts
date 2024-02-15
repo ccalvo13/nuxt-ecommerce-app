@@ -5,9 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   typescript: {
     typeCheck: true,
-  },
-  alias: {
-    "@": resolve(__dirname, "/"),
+    strict: true,
   },
   css: ["~/assets/css/main.scss"],
   modules: [
@@ -56,14 +54,14 @@ export default defineNuxtConfig({
       enableRefreshOnWindowFocus: false,
 
       // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
-      // enableRefreshPeriodically: 5000
+      enableRefreshPeriodically: 5000000000,
     },
     globalAppMiddleware: {
       isEnabled: true
     },
-    globalMiddlewareOptions: {
-      allow404WithoutAuth: true, // Defines if the 404 page will be accessible while unauthenticated
-      addDefaultCallbackUrl: '/' // Where authenticated user will be redirected to by default
-    }
+    // globalMiddlewareOptions: {
+    //   allow404WithoutAuth: true, // Defines if the 404 page will be accessible while unauthenticated
+    //   addDefaultCallbackUrl: '/' // Where authenticated user will be redirected to by default
+    // }
   }
 })

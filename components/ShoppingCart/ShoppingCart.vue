@@ -52,7 +52,7 @@
               </div>
               <el-icon 
                 class="el-icon--right m-4" 
-                @click="handleDelete(scope.$index, scope.row)"
+                @click="handleDelete(scope.row)"
               >
                 <el-icon-close-bold/>
               </el-icon>
@@ -96,22 +96,24 @@ onMounted(async () => {
 
 const getSubtotal = () => {
   subtotal.value = 0;
-  cartList.map((cart) => {
-    subtotal.value += (cart.product.price * cart.quantity);
+  cartList.map((cart: FilteredCart) => {
+    if(cart.product) {
+      subtotal.value += Number(cart.product.price * cart.quantity);
+    }
   })
-  subtotal.value = subtotal.value.toFixed(2);
+  subtotal.value = parseFloat((subtotal.value).toFixed(2));
 
   computeTotal();
 }
 
 const computeTotal = () => {
-  total.value = (Number(subtotal.value) + Number(shippingFee.value)).toFixed(2);
+  total.value = parseFloat((Number(subtotal.value) + Number(shippingFee.value)).toFixed(2));
 
   emit('getTotal', total);
 }
 
-const handleDelete = (index, row) => {
-  cartList = cartList.filter(cart => {
+const handleDelete = (row: FilteredCart) => {
+  cartList = cartList.filter((cart: FilteredCart) => {
     return cart.productId != row.productId;
   })
   getSubtotal();

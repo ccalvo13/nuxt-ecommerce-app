@@ -1,16 +1,11 @@
-export type Product = {
-  productId: number;
-  quantity: number;
-}
-
 export type Cart = {
   id: number;
   date: string;
-  products: FilteredCart[];
+  products: CartProducts[];
   userId: number;
 }
 
-export type FilteredCart = {
+export type CartProducts = {
   productId: number;
   quantity: number;
   product?: Products;

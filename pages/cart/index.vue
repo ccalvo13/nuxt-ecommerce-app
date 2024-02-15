@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 let total = ref(0);
-let filteredCart = reactive<FilteredCart[]>([]);
+let filteredCart = reactive<CartProducts[]>([]);
 let loading = ref(false);
 
 onMounted(async () => {

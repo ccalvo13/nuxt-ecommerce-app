@@ -54,7 +54,7 @@
         <div class="quantity">
           <el-input-number v-model="quantity" :min="1" :max="10" />
         </div>
-        <el-button type="primary" color="#9a584d" @click="addToCart(product)">
+        <el-button type="primary" color="#9a584d" :loading="loading" @click="addToCart(product)">
           Add to cart
         </el-button>
       </div>
@@ -67,24 +67,26 @@ import type { ProductDialogProps } from '~/components/ProductDialog/types';
 
 defineProps<ProductDialogProps>();
 const quantity = ref(1);
+const loading = ref(false);
 
 const addToCart = async (product: Products) => {
+  loading.value = true;
   const today = new Date();
   const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  const { data: cart }: any = await useFetch(`https://fakestoreapi.com/carts/2`, {
-    method: 'put',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      userId: 2,
-      date: date,
-      products: [
-        { 
-          productId: product.id,
-          quantity: quantity.value,
-        }
-      ]
-    }),
-  });
+  const cartDetails = {
+    id: 3,
+    userId: 2,
+    date: date,
+    products: [
+      { 
+        productId: product.id,
+        quantity: quantity.value,
+      }
+    ]
+  };
+
+  await useUpdateCart(cartDetails);
+  loading.value = false;
 }
 </script>
 

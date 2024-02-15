@@ -96,7 +96,7 @@ onMounted(async () => {
 
 const getSubtotal = () => {
   subtotal.value = 0;
-  cartList.map((cart: FilteredCart) => {
+  cartList.map((cart: CartProducts) => {
     if(cart.product) {
       subtotal.value += Number(cart.product.price * cart.quantity);
     }
@@ -112,8 +112,8 @@ const computeTotal = () => {
   emit('getTotal', total);
 }
 
-const handleDelete = (row: FilteredCart) => {
-  cartList = cartList.filter((cart: FilteredCart) => {
+const handleDelete = (row: CartProducts) => {
+  cartList = cartList.filter((cart: CartProducts) => {
     return cart.productId != row.productId;
   })
   getSubtotal();

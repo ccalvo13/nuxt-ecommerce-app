@@ -3,8 +3,5 @@ export const useProducts = async (query: string): Promise<Products[]> => {
     method: "get",
     headers: { "Content-Type": "application/json" },
     query: { sort: query },
-  }).then((response) => {
-    console.log('response', response.data.value)
-    return response.data.value as Products[]
-  });
+  }).then((response) => response.data.value as Products[]);
 };

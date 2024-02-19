@@ -16,6 +16,7 @@
           />
         </el-menu-item>
         <el-menu-item index="/">Home</el-menu-item>
+        <el-menu-item index="/dashboard/products/list">Dashboard</el-menu-item>
         <el-menu-item index="/products">Products</el-menu-item>
         <div class="flex-grow" />
         <el-menu-item index="#">

@@ -6,11 +6,11 @@
     </div>
     <div class="product-filters flex space-between">
       <div class="flex gap-2">
-        <el-radio-group v-if="categoriesList.length" v-model="categoryGroup" @change="getProducts" size="large">
+        <el-radio-group v-if="categoriesList" v-model="categoryGroup" @change="getProducts" size="large">
           <el-radio-button label="All products">
             All products
           </el-radio-button>
-          <el-radio-button v-for="category in categoriesList" :key="category" :label="category">
+          <el-radio-button class="capitalize" v-for="category in categoriesList" :key="category" :label="category">
             {{ category }}
           </el-radio-button>
         </el-radio-group>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="product-list">
-      <el-row v-if="productList.length" class="flex items-stretch mx-4 justify-center">
+      <el-row v-if="!loading" class="flex items-stretch mx-4 justify-center">
         <el-col v-for="(product, index) in productList" :key="index" class="p-4" :xs="20" :sm="12" :md="8" :lg="6"
           :xl="6">
           <el-card class="block bg-gray-100 overflow-hidden border-2 h-full cursor-pointer"
@@ -87,6 +87,9 @@ onMounted(async () => {
   const products = await useProducts(sortBy.value);
 
   getSorted(products)
+  console.log('categoriesList: ', categoriesList);
+
+  loading.value = false;
 });
 
 const getProducts = async () => {
@@ -105,12 +108,13 @@ const getProducts = async () => {
   }
 
   getSorted(productList)
+
+  loading.value = false;
 }
 
 const getSorted = async (products: Products[]) => {
   productList = products.sort((a, b) => a.price - b.price);
-
-  loading.value = false;
+  console.log('products: ', productList);
 }
 
 const getSortBy = async () => {

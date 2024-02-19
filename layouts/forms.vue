@@ -5,7 +5,7 @@
         <UIHeadersFormsMenu />
       </el-aside>
       <el-container>
-        <el-header>
+        <el-header class="p-10">
           <UIHeadersFormsHeader />
         </el-header>
         <el-main>

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-10">
+  <div>
     <el-menu
       class="forms-menu h-full items-center"
       :ellipsis="false"
@@ -7,7 +7,7 @@
       :router=true
     >
       <div class="heading-title flex justify-center mb-10">
-        <h1 class="text-3xl font-bold">Products</h1>
+        <h1 class="text-3xl font-bold">{{ $route.meta.title }}</h1>
       </div>
       <div class="flex-grow"></div>
       <el-menu-item index="#">

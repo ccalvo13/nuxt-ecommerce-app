@@ -46,7 +46,7 @@
             alt="Project logo"
           />
         </el-menu-item>
-        <div class="flex-grow" />
+        <div class="flex-grow"></div>
         <el-menu-item index="#">
           <el-button
             class="navbar-burger flex items-center text-blue-600 p-3"

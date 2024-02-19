@@ -36,16 +36,18 @@ export default defineNuxtConfig({
     importStyle: 'scss',
   },
   auth: {
+    baseURL: 'https://fakestoreapi.com/',
     provider: {
       type: 'local',
       endpoints: {
-        getSession: { path: '/user' }
+        signIn: { path: '/auth/login', method: 'post' },
+        getSession: { path: '/users/2', method: 'get' }
       },
       pages: {
         login: '/auth/login'
       },
       token: {
-        signInResponseTokenPointer: '/token/accessToken'
+        signInResponseTokenPointer: '/token'
       },
       sessionDataType: { id: 'string', email: 'string', name: 'string', role: 'admin | guest | account', subscriptions: "{ id: number, status: 'ACTIVE' | 'INACTIVE' }[]" }
     },

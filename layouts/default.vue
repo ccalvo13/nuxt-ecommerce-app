@@ -1,7 +1,7 @@
 <template>
   <div>
-    <HeadersDefaultHeader />
-    <slot />
+    <UIHeadersDefaultHeader />
+    <slot></slot>
   </div>
 </template>
 

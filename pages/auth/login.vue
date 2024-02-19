@@ -37,8 +37,8 @@ definePageMeta({
 
 const user = ref({
     username: 'mor_2314', 
-    // password: '83r5^_',
-    password: 'hunter2',
+    password: '83r5^_',
+    // password: 'hunter2',
 });
 
 const loginForm = ref<FormInstance>()

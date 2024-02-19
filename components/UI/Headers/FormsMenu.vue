@@ -1,5 +1,5 @@
 <template>
-  <div class="p-10">
+  <div class="p-10 border-x border-solid">
     <div class="flex justify-center">
       <img
         class="w-[40px]"
@@ -13,11 +13,11 @@
       :ellipsis="false"
       :router=true
     >
-      <el-menu-item index="/">Home</el-menu-item>
-      <el-menu-item index="/products">Products</el-menu-item>
-      <el-menu-item index="#">Search</el-menu-item>
-      <el-menu-item index="/cart">Cart</el-menu-item>
+      <el-menu-item index="#">Categories</el-menu-item>
+      <el-menu-item index="/products/details">Products</el-menu-item>
+      <el-menu-item index="#">Cart</el-menu-item>
       <el-menu-item index="#">Account</el-menu-item>
+      <div class="flex-grow"></div>
       <el-menu-item @click="logout">Logout</el-menu-item>
     </el-menu>
   </div>

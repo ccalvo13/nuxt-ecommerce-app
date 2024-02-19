@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <slot />
-  </div>
-  <div class="forms-layout">
+  <div class="forms-layout h-full">
     <el-container>
       <el-aside class="w-80">
-        <HeadersFormsHeader />
+        <UIHeadersFormsMenu />
       </el-aside>
       <el-container>
-        <el-header>Header</el-header>
+        <el-header>
+          <UIHeadersFormsHeader />
+        </el-header>
         <el-main>
-          <slot />
+          <slot></slot>
         </el-main>
       </el-container>
     </el-container>
